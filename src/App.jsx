@@ -1,6 +1,51 @@
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+import Home from "./ui/Home";
+import Error from "./ui/Error";
+import Menu, { loader as menuLoader } from "./features/menu/Menu";
+import Cart from "./features/cart/Cart";
+import Order, { loader as orderLoader } from "./features/order/Order";
+import CreateOrder, {
+  action as createOrderAction,
+} from "./features/order/CreateOrder";
+import AppLayout from "./ui/AppLayout";
+
+const router = createBrowserRouter([
+  {
+    element: <AppLayout></AppLayout>,
+    errorElement: <Error></Error>,
+    children: [
+      {
+        path: "/",
+        element: <Home></Home>,
+      },
+      {
+        path: "/menu",
+        element: <Menu></Menu>,
+        loader: menuLoader,
+        errorElement: <Error></Error>,
+      },
+      {
+        path: "/cart",
+        element: <Cart></Cart>,
+      },
+      {
+        path: "/order/:orderId",
+        element: <Order></Order>,
+        loader: orderLoader,
+        errorElement: <Error></Error>,
+      },
+      {
+        path: "/order/new",
+        element: <CreateOrder></CreateOrder>,
+        action: createOrderAction,
+      },
+    ],
+  },
+]);
+
 function App() {
-  const x = 23;
-  return <div>Hello Vite !</div>;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
